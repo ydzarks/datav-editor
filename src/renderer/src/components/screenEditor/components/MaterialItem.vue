@@ -5,7 +5,7 @@ defineOptions({
   name: 'MaterialItem',
 })
 
-defineProps<{
+const $props = defineProps<{
   x: number
   y: number
   w: number
@@ -14,7 +14,13 @@ defineProps<{
   static?: boolean
 }>()
 
-onMounted(() => {})
+// TODO 此处模式需要优化
+const rowWidth = inject<Ref<number>>('rowWidth', ref(0))
+const rowHeight = inject<Ref<number>>('rowHeight', ref(0))
+
+// TODO 物料组件的原始宽高应该通过props配置注入
+const scaleX = computed(() => (rowWidth.value * $props.w) / 192)
+const scaleY = computed(() => (rowHeight.value * $props.h) / 108)
 </script>
 
 <template>
@@ -26,7 +32,7 @@ onMounted(() => {})
       <i title="移除物料" i-carbon-trash-can block transition-transform hover:scale-110 hover:color-red-5 />
     </div>
     <div relative h-full w-full overflow-hidden>
-      <component :is="$attrs.is" transform-origin-lt />
+      <component :is="$attrs.is" transform-origin-lt :style="{ transform: `scale(${scaleX}, ${scaleY})` }" transition-transform />
     </div>
   </GridItem>
 </template>
