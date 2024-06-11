@@ -14,6 +14,7 @@ const $props = defineProps<{
   static?: boolean
 }>()
 
+const preview = inject<boolean>('preivew', false)
 // TODO 此处模式需要优化
 const rowWidth = inject<Ref<number>>('rowWidth', ref(0))
 const rowHeight = inject<Ref<number>>('rowHeight', ref(0))
@@ -25,7 +26,7 @@ const scaleY = computed(() => (rowHeight.value * $props.h) / 108)
 
 <template>
   <GridItem
-    bg-gray
+    :bg="preview ? 'transparent' : 'gray'"
     :i="i" :x="x" :y="y" :w="w" :h="h" :static="static"
   >
     <div absolute right-1 top-1 z-3 text-4 color-white hover:cursor-pointer>

@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import Stage from './components/Stage.vue'
 
-const width = 1920
-const height = 1080
-
 const config = ref<ScreenConfig>({
   screenTitle: '大屏',
   screenWidth: 1920,
   screenHeight: 1080,
 })
+
+function handleClick() {
+  config.value.screenHeight = 1280
+}
 </script>
 
 <template>
@@ -23,6 +24,9 @@ const config = ref<ScreenConfig>({
       bordered transition
     >
       <p>侧边栏图形列表区域</p>
+      <n-button @click="handleClick">
+        修改大屏分辨率
+      </n-button>
     </n-layout-sider>
     <n-layout embedded content-class="flex flex-col">
       <n-layout-header bordered h-fit>
@@ -30,7 +34,7 @@ const config = ref<ScreenConfig>({
       </n-layout-header>
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
-          <section :style="{ height: `${height + 1}px`, width: `${width + 1}px` }" relative>
+          <section :style="{ height: `${config.screenHeight + 1}px`, width: `${config.screenWidth + 1}px` }" relative>
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
               <defs>
                 <pattern id="smallGrid" width="19.2" height="10.8" patternUnits="userSpaceOnUse">
