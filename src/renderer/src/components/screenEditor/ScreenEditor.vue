@@ -30,7 +30,7 @@ const config = ref<ScreenConfig>({
       </n-layout-header>
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
-          <section :style="{ height: `${height}px`, width: `${width}px` }" relative>
+          <section :style="{ height: `${height + 1}px`, width: `${width + 1}px` }" relative>
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
               <defs>
                 <pattern id="smallGrid" width="19.2" height="10.8" patternUnits="userSpaceOnUse">
