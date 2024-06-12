@@ -35,22 +35,6 @@ function handleClick() {
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
           <section :style="{ height: `${config.screenHeight + 1}px`, width: `${config.screenWidth + 1}px` }" relative>
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
-              <defs>
-                <pattern id="smallGrid" width="19.2" height="10.8" patternUnits="userSpaceOnUse">
-                  <path d="M 19.2 0 L 0 0 0 10.8" fill="none" stroke="rgba(207, 207, 207, 0.3)" stroke-width="1" stroke-dasharray="1" />
-                </pattern>
-                <pattern id="middleGrid" width="96" height="54" patternUnits="userSpaceOnUse">
-                  <rect width="96" height="54" fill="url(#smallGrid)" />
-                  <path d="M 96 0 L 0 0 0 54" fill="none" stroke="rgba(207, 207, 207, 0.3)" stroke-width="1" />
-                </pattern>
-                <pattern id="grid" width="192" height="108" patternUnits="userSpaceOnUse">
-                  <rect width="192" height="108" fill="url(#middleGrid)" />
-                  <path d="M 192 0 L 0 0 0 108" fill="none" stroke="rgba(207, 207, 207, 0.7)" stroke-width="1" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
             <Stage :config="config" />
           </section>
         </n-scrollbar>
