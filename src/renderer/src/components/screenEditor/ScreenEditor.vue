@@ -1,16 +1,12 @@
 <script lang="ts" setup>
 import Stage from './components/Stage.vue'
-import { useScreenData } from './hooks/screenData'
+import { useScreenContext } from './hooks/useScreenContext'
 import StageConfig from './stageConfig/StageConfig.vue'
 
-const { config, stageConfig, addMaterial } = useScreenData()
+const ScreenContext = useScreenContext()
+const { config, stageConfig } = ScreenContext()
 
-const contentWidth = computed(() => config.value.width + 1)
-const contentHeight = computed(() => config.value.height + 1)
-
-provide('config', config)
-provide('stageConfig', stageConfig)
-provide('addMaterial', addMaterial)
+provide('ScreenContext', ScreenContext)
 </script>
 
 <template>
@@ -22,7 +18,7 @@ provide('addMaterial', addMaterial)
       </n-layout-header>
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
-          <section :style="{ height: `${contentHeight}px`, width: `${contentWidth}px` }" relative>
+          <section :style="{ height: `${stageConfig.contentHeight.value}px`, width: `${stageConfig.contentWidth.value}px` }" relative>
             <Stage />
           </section>
         </n-scrollbar>

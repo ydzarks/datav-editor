@@ -1,5 +1,8 @@
-<script setup>
-const addMaterial = inject('addMaterial', () => {})
+<script setup lang="ts">
+import type { ScreenContext } from '../hooks/useScreenContext'
+
+const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
+const { addMaterial } = screenContext()
 
 function handleAddMaterial() {
   addMaterial({ position: { x: 20, y: 20, w: 20, h: 20 }, component: 'DomChart' })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { GridItem } from 'grid-layout-plus'
+import type { ScreenContext } from '../hooks/useScreenContext'
 
 defineOptions({
   name: 'MaterialItem',
@@ -18,8 +19,8 @@ const $props = defineProps<{
   component: string
 }>()
 const preview = inject<boolean>('preivew', false)
-
-const stageConfig = inject<{ rowWidth: ComputedRef<number>, rowHeight: ComputedRef<number> }>('stageConfig')
+const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
+const { stageConfig } = screenContext()
 
 const scaleX = computed(() => ((stageConfig?.rowWidth.value ?? 0) * $props.w) / 192)
 const scaleY = computed(() => ((stageConfig?.rowWidth.value ?? 0) * $props.h) / 108)

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { GridLayout } from 'grid-layout-plus'
+import type { ScreenContext } from '../hooks/useScreenContext'
+
 import MaterialItem from './MaterialItem.vue'
 
-const config = inject<Ref<ScreenConfig>>('config')
-const stageConfig = inject<{ rowWidth: ComputedRef<number>, rowHeight: ComputedRef<number> }>('stageConfig')
+const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
+const { config, stageConfig } = screenContext()
 
 const rowWidth = computed(() => stageConfig?.rowWidth.value ?? 0)
 const rowHeight = computed(() => stageConfig?.rowHeight.value ?? 0)
