@@ -3,8 +3,11 @@ import { GridItem } from 'grid-layout-plus'
 
 defineOptions({
   name: 'MaterialItem',
+  components: {
+    DomChart: defineAsyncComponent(() =>
+      import('~/components/materials/DomChart.vue')),
+  },
 })
-
 const $props = defineProps<{
   x: number
   y: number
@@ -13,7 +16,7 @@ const $props = defineProps<{
   i: number | string
   static?: boolean
 }>()
-
+const $attrs = useAttrs()
 const preview = inject<boolean>('preivew', false)
 // TODO 此处模式需要优化
 const rowWidth = inject<Ref<number>>('rowWidth', ref(0))
@@ -22,6 +25,10 @@ const rowHeight = inject<Ref<number>>('rowHeight', ref(0))
 // TODO 物料组件的原始宽高应该通过props配置注入
 const scaleX = computed(() => (rowWidth.value * $props.w) / 192)
 const scaleY = computed(() => (rowHeight.value * $props.h) / 108)
+
+onMounted(() => {
+  console.log(this)
+})
 </script>
 
 <template>

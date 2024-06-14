@@ -1,5 +1,18 @@
+declare interface Material {
+  component: string
+  position: {
+    x: number
+    y: number
+    w: number
+    h: number
+  }
+  data?: any
+  styleOptions?: any
+}
+
 declare interface ScreenConfig {
-  screenTitle: string // 大屏名称
-  screenWidth: number // 大屏原始宽度
-  screenHeight: number // 大屏原始高度
+  title: string // 大屏名称
+  width: number // 大屏宽度
+  height: number // 大屏高度
+  materials: Material[]
 }

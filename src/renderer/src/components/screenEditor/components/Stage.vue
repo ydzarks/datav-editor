@@ -1,28 +1,26 @@
 <script setup lang="ts">
 import { GridLayout } from 'grid-layout-plus'
 import MaterialItem from './MaterialItem.vue'
-import DomChart from '~/components/materials/DomChart.vue'
 
 const $props = defineProps<{
   config: ScreenConfig
 }>()
 
-const rowWidth = computed(() => $props.config.screenWidth / 100)
-const rowHeight = computed(() => $props.config.screenHeight / 100)
+const rowWidth = computed(() => $props.config.width / 100)
+const rowHeight = computed(() => $props.config.height / 100)
 
 provide('rowWidth', rowWidth)
 provide('rowHeight', rowHeight)
 
-const layout = shallowReactive([
-  {
-    i: '0',
-    x: 30,
-    y: 30,
-    w: 20,
-    h: 20,
-    component: DomChart,
-  },
-])
+const layout = computed(() => {
+  return $props.config.materials.map((item, index) => {
+    return {
+      i: index,
+      component: item.component,
+      ...item.position,
+    }
+  })
+})
 </script>
 
 <template>

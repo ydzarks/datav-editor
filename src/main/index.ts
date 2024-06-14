@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { join } from 'node:path'
-import { BrowserWindow, app, ipcMain, shell } from 'electron'
+import { BrowserWindow, app, ipcMain, session, shell } from 'electron'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
@@ -40,7 +40,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -55,6 +55,11 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
+
+  if (import.meta.env.DEV) {
+    const vueDevToolsPath = join(__dirname, '../../.devtools/vue-devtools')
+    await session.defaultSession.loadExtension(vueDevToolsPath)
+  }
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
