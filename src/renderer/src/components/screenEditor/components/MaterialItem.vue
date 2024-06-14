@@ -9,35 +9,46 @@ defineOptions({
       import('~/components/materials/DomChart.vue')),
   },
 })
-const $props = defineProps<{
-  i: number | string
-  x: number
-  y: number
-  w: number
-  h: number
-  static?: boolean
-  component: string
-}>()
-const preview = inject<boolean>('preivew', false)
+const $props = defineProps<{ i: string | number }>()
+
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
-const { stageConfig } = screenContext()
+const { preview, stageConfig, getMaterial, removeMaterial } = screenContext()
+const { rowWidth, rowHeight } = stageConfig
 
-const scaleX = computed(() => ((stageConfig?.rowWidth.value ?? 0) * $props.w) / 192)
-const scaleY = computed(() => ((stageConfig?.rowWidth.value ?? 0) * $props.h) / 108)
+const material = getMaterial($props.i)
 
-onMounted(() => {})
+const scaleX = computed(() => ((rowWidth.value ?? 0) * material.position.w) / 192)
+const scaleY = computed(() => ((rowHeight.value ?? 0) * material.position.h) / 108)
+
+function handleMove(_i: number | string, newX: number, newY: number) {
+  material.position.x = newX
+  material.position.y = newY
+}
+
+function handleResize(_i: number | string, newH: number, newW: number) {
+  material.position.w = newW
+  material.position.h = newH
+}
+
+function handleRemoveMaterial() {
+  removeMaterial($props.i)
+}
 </script>
 
 <template>
   <GridItem
     :bg="preview ? 'transparent' : 'gray'"
-    :i="i" :x="x" :y="y" :w="w" :h="h" :static="static"
+    :i="i" :x="material.position.x" :y="material.position.y" :w="material.position.w" :h="material.position.h"
+    @move="handleMove" @resize="handleResize"
   >
     <div absolute right-1 top-1 z-3 text-4 color-white hover:cursor-pointer>
-      <i title="移除物料" i-carbon-trash-can block transition-transform hover:scale-110 hover:color-red-5 />
+      <i title="移除物料" i-carbon-trash-can block transition-transform hover:scale-110 hover:color-red-5 @click="handleRemoveMaterial" />
     </div>
     <div relative h-full w-full overflow-hidden>
-      <component :is="component" transform-origin-lt :style="{ transform: `scale(${scaleX}, ${scaleY})` }" transition-transform />
+      <component
+        :is="material.component" :i="i"
+        transform-origin-lt :style="{ transform: `scale(${scaleX}, ${scaleY})` }" transition-transform
+      />
     </div>
   </GridItem>
 </template>

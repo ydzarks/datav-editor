@@ -5,7 +5,7 @@ const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
 const { addMaterial } = screenContext()
 
 function handleAddMaterial() {
-  addMaterial({ position: { x: 20, y: 20, w: 20, h: 20 }, component: 'DomChart' })
+  addMaterial({ i: new Date().getTime(), component: 'DomChart', position: { x: 20, y: 20, w: 20, h: 20 } })
 }
 
 function handleClick() {}

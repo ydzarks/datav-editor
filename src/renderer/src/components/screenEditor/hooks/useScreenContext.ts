@@ -1,6 +1,8 @@
+import type { UnwrapNestedRefs } from 'vue'
+
 // TODO: 远程获取屏幕配置
-function getScrrenConfig(_screenId: string): Ref<ScreenConfig> {
-  return ref({
+function getScrrenConfig(_screenId: string): UnwrapNestedRefs<ScreenConfig> {
+  return reactive({
     title: '大屏',
     width: 1920,
     height: 1080,
@@ -8,8 +10,8 @@ function getScrrenConfig(_screenId: string): Ref<ScreenConfig> {
   })
 }
 
-function initDefaultConfig(): Ref<ScreenConfig> {
-  return ref({
+function initDefaultConfig(): UnwrapNestedRefs<ScreenConfig> {
+  return reactive({
     title: '大屏',
     width: 1920,
     height: 1080,
@@ -23,26 +25,48 @@ function initDefaultConfig(): Ref<ScreenConfig> {
  * @returns
  */
 export function useScreenContext(screenId?: string) {
-  const config: Ref<ScreenConfig> = screenId ? getScrrenConfig(screenId) : initDefaultConfig()
+  const preview = ref(false)
+  const config: UnwrapNestedRefs<ScreenConfig> = screenId ? getScrrenConfig(screenId) : initDefaultConfig()
 
   // 布局舞台大小
-  const contentWidth = computed(() => config.value.width + 1)
-  const contentHeight = computed(() => config.value.height + 1)
+  const contentWidth = computed(() => config.width + 1)
+  const contentHeight = computed(() => config.height + 1)
 
   // 100*100舞台的宽高步长
-  const rowWidth = computed(() => config.value.width / 100)
-  const rowHeight = computed(() => config.value.height / 100)
+  const rowWidth = computed(() => config.width / 100)
+  const rowHeight = computed(() => config.height / 100)
 
   function addMaterial(material: Material) {
-    config.value.materials.push(material)
+    config.materials.push(material)
   }
 
-  function removeMaterial(i: number) {
-    config.value.materials.splice(i, 1)
+  function removeMaterial(i: number | string) {
+    const index = config.materials.findIndex(material => material.i === i)
+    if (index >= 0) {
+      config.materials.splice(index, 1)
+    }
+  }
+
+  function getMaterial(i: number | string) {
+    const index = config.materials.findIndex(material => material.i === i)
+    return config.materials[index]
   }
 
   return () => {
-    return { config, stageConfig: { contentWidth, contentHeight, rowWidth, rowHeight }, addMaterial, removeMaterial }
+    return {
+      preview,
+      config,
+      materials: config.materials,
+      stageConfig: {
+        contentWidth,
+        contentHeight,
+        rowWidth,
+        rowHeight,
+      },
+      getMaterial,
+      addMaterial,
+      removeMaterial,
+    }
   }
 }
 

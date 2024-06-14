@@ -5,18 +5,20 @@ import type { ScreenContext } from '../hooks/useScreenContext'
 import MaterialItem from './MaterialItem.vue'
 
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
-const { config, stageConfig } = screenContext()
+const { stageConfig, materials } = screenContext()
+const { rowWidth, rowHeight } = stageConfig
 
-const rowWidth = computed(() => stageConfig?.rowWidth.value ?? 0)
-const rowHeight = computed(() => stageConfig?.rowHeight.value ?? 0)
-
-const layout = computed(() => config?.value.materials.map((item, index) => {
-  return {
-    i: index,
-    ...item.position,
-    component: item.component,
-  }
-}) ?? [])
+const layout = computed(() => {
+  return materials.map((material) => {
+    return {
+      i: material.i,
+      x: material.position.x,
+      y: material.position.y,
+      w: material.position.w,
+      h: material.position.h,
+    }
+  })
+})
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const layout = computed(() => config?.value.materials.map((item, index) => {
     </defs>
     <rect width="100%" height="100%" fill="url(#grid)" />
   </svg>
-  <GridLayout :layout="layout" :auto-size="false" :col-num="100" :max-rows="100" :row-height="rowHeight" :margin="[0, 0]" :vertical-compact="false" h-full w-full>
-    <MaterialItem v-for="(item) in layout" :key="item.i" :component="item.component" :i="item.i" :x="item.x" :y="item.y" :w="item.w" :h="item.h" />
+  <GridLayout h-full w-full :layout="layout" :auto-size="false" :col-num="100" :max-rows="100" :row-height="rowHeight" :margin="[0, 0]" :vertical-compact="false">
+    <MaterialItem v-for="(_material) in materials" :key="_material.i" :i="_material.i" preserve-aspect-ratio />
   </GridLayout>
 </template>

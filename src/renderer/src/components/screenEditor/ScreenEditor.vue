@@ -4,7 +4,8 @@ import { useScreenContext } from './hooks/useScreenContext'
 import StageConfig from './stageConfig/StageConfig.vue'
 
 const ScreenContext = useScreenContext()
-const { config, stageConfig } = ScreenContext()
+const { stageConfig } = ScreenContext()
+const { contentHeight, contentWidth } = stageConfig
 
 provide('ScreenContext', ScreenContext)
 </script>
@@ -14,11 +15,13 @@ provide('ScreenContext', ScreenContext)
     <StageConfig />
     <n-layout embedded content-class="flex flex-col">
       <n-layout-header bordered h-fit>
-        <n-input v-model:value="config.title" type="text" placeholder="请输入大屏标题" />
+        <div h-60px>
+          头部工具栏区域
+        </div>
       </n-layout-header>
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
-          <section :style="{ height: `${stageConfig.contentHeight.value}px`, width: `${stageConfig.contentWidth.value}px` }" relative>
+          <section :style="{ height: `${contentHeight}px`, width: `${contentWidth}px` }" relative>
             <Stage />
           </section>
         </n-scrollbar>

@@ -1,4 +1,5 @@
 declare interface Material {
+  i: number | string
   component: string
   position: {
     x: number
