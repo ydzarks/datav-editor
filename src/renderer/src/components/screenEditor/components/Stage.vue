@@ -9,7 +9,7 @@ const { stageConfig, materials } = screenContext()
 const { rowWidth, rowHeight } = stageConfig
 
 const layout = computed(() => {
-  return materials.map((material) => {
+  return materials.value.map((material) => {
     return {
       i: material.i,
       x: material.position.x,

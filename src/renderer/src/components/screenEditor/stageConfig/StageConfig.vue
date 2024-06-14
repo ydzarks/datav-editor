@@ -2,13 +2,16 @@
 import type { ScreenContext } from '../hooks/useScreenContext'
 
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
-const { addMaterial } = screenContext()
+const { config, addMaterial } = screenContext()
 
 function handleAddMaterial() {
   addMaterial({ i: new Date().getTime(), component: 'DomChart', position: { x: 20, y: 20, w: 20, h: 20 } })
 }
 
-function handleClick() {}
+function handleClick() {
+  config.value.width = 2200
+  config.value.height = 1200
+}
 </script>
 
 <template>
