@@ -1,23 +1,16 @@
 <script lang="ts" setup>
 import Stage from './components/Stage.vue'
+import { useScreenData } from './hooks/screenData'
 import StageConfig from './stageConfig/StageConfig.vue'
 
-const config = ref<ScreenConfig>({
-  title: '大屏',
-  width: 1920,
-  height: 1080,
-  materials: [
-    {
-      component: 'DomChart',
-      position: {
-        x: 30,
-        y: 30,
-        w: 20,
-        h: 20,
-      },
-    },
-  ],
-})
+const { config, stageConfig, addMaterial } = useScreenData()
+
+const contentWidth = computed(() => config.value.width + 1)
+const contentHeight = computed(() => config.value.height + 1)
+
+provide('config', config)
+provide('stageConfig', stageConfig)
+provide('addMaterial', addMaterial)
 </script>
 
 <template>
@@ -29,8 +22,8 @@ const config = ref<ScreenConfig>({
       </n-layout-header>
       <n-layout-content :native-scrollbar="true">
         <n-scrollbar x-scrollable>
-          <section :style="{ height: `${config.height + 1}px`, width: `${config.width + 1}px` }" relative>
-            <Stage :config="config" />
+          <section :style="{ height: `${contentHeight}px`, width: `${contentWidth}px` }" relative>
+            <Stage />
           </section>
         </n-scrollbar>
       </n-layout-content>

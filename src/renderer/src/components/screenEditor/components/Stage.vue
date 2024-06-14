@@ -2,25 +2,19 @@
 import { GridLayout } from 'grid-layout-plus'
 import MaterialItem from './MaterialItem.vue'
 
-const $props = defineProps<{
-  config: ScreenConfig
-}>()
+const config = inject<Ref<ScreenConfig>>('config')
+const stageConfig = inject<{ rowWidth: ComputedRef<number>, rowHeight: ComputedRef<number> }>('stageConfig')
 
-const rowWidth = computed(() => $props.config.width / 100)
-const rowHeight = computed(() => $props.config.height / 100)
+const rowWidth = computed(() => stageConfig?.rowWidth.value ?? 0)
+const rowHeight = computed(() => stageConfig?.rowHeight.value ?? 0)
 
-provide('rowWidth', rowWidth)
-provide('rowHeight', rowHeight)
-
-const layout = computed(() => {
-  return $props.config.materials.map((item, index) => {
-    return {
-      i: index,
-      component: item.component,
-      ...item.position,
-    }
-  })
-})
+const layout = computed(() => config?.value.materials.map((item, index) => {
+  return {
+    i: index,
+    ...item.position,
+    component: item.component,
+  }
+}) ?? [])
 </script>
 
 <template>
@@ -41,6 +35,6 @@ const layout = computed(() => {
     <rect width="100%" height="100%" fill="url(#grid)" />
   </svg>
   <GridLayout :layout="layout" :auto-size="false" :col-num="100" :max-rows="100" :row-height="rowHeight" :margin="[0, 0]" :vertical-compact="false" h-full w-full>
-    <MaterialItem :is="item.component" v-for="(item) in layout" :key="item.i" :i="item.i" :x="item.x" :y="item.y" :w="item.w" :h="item.h" />
+    <MaterialItem v-for="(item) in layout" :key="item.i" :component="item.component" :i="item.i" :x="item.x" :y="item.y" :w="item.w" :h="item.h" />
   </GridLayout>
 </template>
