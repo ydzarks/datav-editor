@@ -33,7 +33,6 @@ export function useScreenContext(screenId?: string) {
   const config: Ref<ScreenConfig> = initConfig(screenId)
 
   function resetConfig() {
-    preview.value = !preview.value
     config.value = initConfig(screenId).value
   }
 
