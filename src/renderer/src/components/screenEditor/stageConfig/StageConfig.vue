@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { ScreenContext } from '../hooks/useScreenContext'
 
+import TitleConfig from './components/TitleConfig.vue'
+import RatioConfig from './components/RatioConfig.vue'
+
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
-const { config, addMaterial } = screenContext()
+const { addMaterial } = screenContext()
 
 function handleAddMaterial() {
   addMaterial({ i: new Date().getTime(), component: 'DomChart', position: { x: 20, y: 20, w: 20, h: 20 } })
-}
-
-function handleClick() {
-  config.value.width = 2200
-  config.value.height = 1200
 }
 </script>
 
@@ -21,15 +19,15 @@ function handleClick() {
     :collapsed-width="0"
     :width="240"
     show-trigger="bar"
-    content-style="padding: 24px;"
+    content-class="px-2 py-3 min-h-full"
     bordered transition
   >
-    <p>侧边栏图形列表区域</p>
-    <n-button @click="handleClick">
-      修改大屏分辨率
-    </n-button>
-    <n-button type="primary" @click="handleAddMaterial">
-      添加物料组件
-    </n-button>
+    <div flex flex-col items-stretch justify-start gap-2>
+      <TitleConfig />
+      <RatioConfig />
+      <n-button type="primary" @click="handleAddMaterial">
+        添加物料组件
+      </n-button>
+    </div>
   </n-layout-sider>
 </template>

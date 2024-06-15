@@ -4,6 +4,6 @@ defineProps<{ i: number }>()
 
 <template>
   <div h-108px w-192px bg-red text-white>
-    Demo {{ i }}
+    测试用物料组件 {{ i }}
   </div>
 </template>

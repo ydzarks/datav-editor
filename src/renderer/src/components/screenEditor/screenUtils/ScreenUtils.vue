@@ -23,13 +23,13 @@ function handleReset() {
 
 <template>
   <n-layout-header bordered h-fit>
-    <div px-4 py-2>
-      <n-button type="error" text-color="white" @click="handleReset">
+    <div flex items-center gap-2 px-4 py-2>
+      <n-button type="error" text-color="white" size="small" @click="handleReset">
         <n-icon size="16" i-carbon-reset mr-1 />
         重置
       </n-button>
-      <n-checkbox v-model:checked="useAxis">
-        辅助线
+      <n-checkbox v-model:checked="useAxis" size="small">
+        辅助网格
       </n-checkbox>
     </div>
   </n-layout-header>
