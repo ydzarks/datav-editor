@@ -5,8 +5,9 @@ import type { ScreenContext } from '../hooks/useScreenContext'
 import MaterialItem from './MaterialItem.vue'
 
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
-const { stageConfig, materials } = screenContext()
+const { stageConfig, materials, screenConfig } = screenContext()
 const { rowWidth, rowHeight } = stageConfig
+const { useAxis } = screenConfig
 
 const layout = computed(() => {
   return materials.value.map((material) => {
@@ -22,7 +23,7 @@ const layout = computed(() => {
 </script>
 
 <template>
-  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
+  <svg v-show="useAxis" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
     <defs>
       <pattern id="smallGrid" :width="rowWidth" :height="rowHeight" patternUnits="userSpaceOnUse">
         <path :d="`M ${rowWidth} 0 L 0 0 0 ${rowHeight}`" fill="none" stroke="rgba(207, 207, 207, 0.3)" stroke-width="1" stroke-dasharray="1" />

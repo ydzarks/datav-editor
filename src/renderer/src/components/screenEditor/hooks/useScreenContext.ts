@@ -1,5 +1,3 @@
-import type { UnwrapNestedRefs } from 'vue'
-
 // TODO: 远程获取屏幕配置
 function getScrrenConfig(_screenId: string): Ref<ScreenConfig> {
   return ref({
@@ -28,6 +26,7 @@ function initConfig(screenId?: string) {
  * @param screenId
  */
 export function useScreenContext(screenId?: string) {
+  const useAxis = ref(true)
   const preview = ref(false)
   // 用Ref而不用Reactive的主要原因是需要重置时只需要config.value = initConfig(screenId)
   // 用Reactive则需要将内部的值一个个覆盖，而直接config = initConfig(screenId)则不会触发视图更新，因为这是一个引用类型的赋值
@@ -66,9 +65,12 @@ export function useScreenContext(screenId?: string) {
 
   return () => {
     return {
-      preview,
       config,
       materials,
+      screenConfig: {
+        useAxis,
+        preview,
+      },
       stageConfig: {
         contentWidth,
         contentHeight,
