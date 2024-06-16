@@ -4,6 +4,9 @@ function getScrrenConfig(_screenId: string): Ref<ScreenConfig> {
     title: '大屏',
     width: 1920,
     height: 1080,
+    background: {
+      color: '#00000000',
+    },
     materials: [],
   })
 }
@@ -13,6 +16,9 @@ function initDefaultConfig(): Ref<ScreenConfig> {
     title: '大屏',
     width: 1920,
     height: 1080,
+    background: {
+      color: '#00000000',
+    },
     materials: [],
   })
 }

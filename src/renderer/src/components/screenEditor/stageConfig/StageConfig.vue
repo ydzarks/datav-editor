@@ -3,6 +3,7 @@ import type { ScreenContext } from '../hooks/useScreenContext'
 
 import TitleConfig from './components/TitleConfig.vue'
 import RatioConfig from './components/RatioConfig.vue'
+import BgConfig from './components/BgConfig.vue'
 
 const screenContext = inject('ScreenContext', (() => {}) as ScreenContext)
 const { addMaterial } = screenContext()
@@ -25,6 +26,7 @@ function handleAddMaterial() {
     <div flex flex-col items-stretch justify-start gap-2>
       <TitleConfig />
       <RatioConfig />
+      <BgConfig />
       <n-button type="primary" @click="handleAddMaterial">
         添加物料组件
       </n-button>

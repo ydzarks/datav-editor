@@ -13,6 +13,14 @@ watch(() => config.value.title, () => {
   useTitle(`${import.meta.env.VITE_APP_TITLE} - ${config.value.title}`)
 }, { immediate: true })
 
+const style = computed(() => {
+  return [
+    `width: ${contentWidth.value}px`,
+    `height: ${contentHeight.value}px`,
+    `background-color: ${config.value.background.color}`,
+  ]
+})
+
 // 广播大屏上下文
 provide('ScreenContext', ScreenContext)
 </script>
@@ -26,7 +34,7 @@ provide('ScreenContext', ScreenContext)
           <ScreenUtils />
           <n-layout-content :native-scrollbar="true">
             <n-scrollbar x-scrollable>
-              <section :style="{ height: `${contentHeight}px`, width: `${contentWidth}px` }" relative>
+              <section :style="style" relative>
                 <Stage />
               </section>
             </n-scrollbar>

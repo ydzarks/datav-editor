@@ -7,16 +7,15 @@ const { config } = screenContext()
 
 <template>
   <div>
-    分辨率设置
+    背景设置
     <n-popover trigger="hover">
       <template #trigger>
         <n-icon i-carbon-help-filled siz="14" vertical-middle />
       </template>
-      <span>设置画布大小，决定100*100画布下的原始宽高</span>
+      <span>支持背景图、背景颜色</span>
     </n-popover>
   </div>
   <div flex flex-center gap-1>
-    <n-input-number v-model:value="config.width" :show-button="false" :update-value-on-input="false" placeholder="宽度" />
-    <n-input-number v-model:value="config.height" :show-button="false" :update-value-on-input="false" placeholder="高度" />
+    <n-color-picker v-model:value="config.background.color" />
   </div>
 </template>
