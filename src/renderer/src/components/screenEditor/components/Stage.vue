@@ -21,14 +21,10 @@ const layout = computed(() => {
     }
   })
 })
-
-const axisColor = computed(() => {
-  return (convertColor(config.value.background.color, 'hex') as string).substring(0, 7)
-})
 </script>
 
 <template>
-  <svg v-show="useAxis" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0 :color="axisColor">
+  <svg v-show="useAxis" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" absolute left-0 top-0>
     <defs>
       <pattern id="smallGrid" :width="rowWidth" :height="rowHeight" patternUnits="userSpaceOnUse">
         <path :d="`M ${rowWidth} 0 L 0 0 0 ${rowHeight}`" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1" />
@@ -42,7 +38,7 @@ const axisColor = computed(() => {
         <path :d="`M ${rowWidth * 10} 0 L 0 0 0 ${rowHeight * 10}`" fill="none" stroke="currentColor" stroke-width="1" />
       </pattern>
     </defs>
-    <rect width="100%" height="100%" fill="url(#grid)" filter-invert-100 />
+    <rect width="100%" height="100%" fill="url(#grid)" mix-blend-difference />
   </svg>
   <GridLayout
     h-full w-full
