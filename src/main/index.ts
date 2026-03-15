@@ -4,9 +4,12 @@ import { BrowserWindow, app, ipcMain, session, shell } from 'electron'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+let mainWindow: BrowserWindow | null = null
+let isLoggedIn = false
+
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1280,
     height: 760,
     show: false,
@@ -19,7 +22,7 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow?.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -37,6 +40,12 @@ function createWindow(): void {
   }
 }
 
+function notifyLoginStatusChange() {
+  if (mainWindow) {
+    mainWindow.webContents.send('login-status-changed', isLoggedIn)
+  }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -51,8 +60,24 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // Login handlers
+  ipcMain.handle('login', async (_event, username: string, password: string) => {
+    if (username === 'admin' && password === 'admin') {
+      isLoggedIn = true
+      notifyLoginStatusChange()
+      return
+    }
+    throw new Error('用户名或密码错误')
+  })
+
+  ipcMain.handle('check-login-status', async () => {
+    return isLoggedIn
+  })
+
+  ipcMain.handle('logout', async () => {
+    isLoggedIn = false
+    notifyLoginStatusChange()
+  })
 
   if (import.meta.env.DEV) {
     const vueDevToolsPath = join(__dirname, '../../.devtools/vue-devtools')

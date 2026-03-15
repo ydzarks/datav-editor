@@ -26,21 +26,17 @@ provide('ScreenContext', ScreenContext)
 </script>
 
 <template>
-  <n-message-provider>
-    <n-dialog-provider>
-      <n-layout has-sider h-screen w-screen>
-        <StageConfig />
-        <n-layout embedded content-class="flex flex-col">
-          <ScreenUtils />
-          <n-layout-content :native-scrollbar="true">
-            <n-scrollbar x-scrollable>
-              <section :style="style" relative>
-                <Stage />
-              </section>
-            </n-scrollbar>
-          </n-layout-content>
-        </n-layout>
-      </n-layout>
-    </n-dialog-provider>
-  </n-message-provider>
+  <n-layout has-sider flex-1>
+    <StageConfig />
+    <n-layout embedded content-class="flex flex-col">
+      <ScreenUtils />
+      <n-layout-content :native-scrollbar="true">
+        <n-scrollbar x-scrollable>
+          <section :style="style" relative>
+            <Stage />
+          </section>
+        </n-scrollbar>
+      </n-layout-content>
+    </n-layout>
+  </n-layout>
 </template>
